@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        6
+Release:        7
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -34,7 +34,7 @@ Linphone may work also with other sip phones, but this has not been tested yet.
 %package devel
 Summary:        Development libraries for linphone
 Group:          Development/Libraries
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release} glib2-devel
 
 %description    devel
 Libraries required to develop software with linphone
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Mar 23 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-7
+- pkgconfig and -devel fixes
+
 * Wed Mar 23 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-6
 - Fix build on x86_64
 
