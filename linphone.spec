@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        4
+Release:        5
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -85,13 +85,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Mar 19 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-5
+- %%
+
 * Sat Mar 19 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-4
-- Used %find_lang
-- Tightened up %files
+- Used %%find_lang
+- Tightened up %%files
 - Streamlined spec file
 
 * Thu Mar 17 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-3
-- Broke %description at 80 columns
+- Broke %%description at 80 columns
 
 * Wed Mar 16 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-2
 - Removed explicit Requires
