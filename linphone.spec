@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        1
+Release:        2
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -13,7 +13,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
 BuildRequires:  libosip-devel speex-devel gettext
-Requires:       gnome-panel libgnomeui glib2 alsa-lib libosip speex
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -84,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Mar 16 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-2
+- Removed explicit Requires
+
 * Tue Mar 15 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-1
 - Bump release to 1
 - Cleaned up the -docs and -speex patches
