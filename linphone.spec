@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        2
+Release:        3
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -17,13 +17,18 @@ Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
 %description
-Linphone is mostly sip compliant. It works successfully with these implementations:
+Linphone is mostly sip compliant. It works successfully with these
+implementations:
     * eStara softphone (commercial software for windows)
     * Pingtel phones (with DNS enabled and VLAN QOS support disabled).
     * Hotsip, a free of charge phone for Windows.
-    * Vocal, an open source SIP stack from Vovida that includes a SIP proxy that works with linphone since version 0.7.1.
-    * Siproxd is a free sip proxy being developped by Thomas Ries because he would like to have linphone working behind his firewall. Siproxd is simple to setup and works perfectly with linphone.
-    * Partysip aims at being a generic and fully functionnal SIP proxy. Visit the web page for more details on its functionalities.
+    * Vocal, an open source SIP stack from Vovida that includes a SIP proxy
+        that works with linphone since version 0.7.1.
+    * Siproxd is a free sip proxy being developped by Thomas Ries because he
+        would like to have linphone working behind his firewall. Siproxd is
+        simple to setup and works perfectly with linphone.
+    * Partysip aims at being a generic and fully functionnal SIP proxy. Visit
+        the web page for more details on its functionalities.
 
 Linphone may work also with other sip phones, but this has not been tested yet.
 
@@ -83,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Mar 17 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-3
+- Broke %description at 80 columns
+
 * Wed Mar 16 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-2
 - Removed explicit Requires
 
