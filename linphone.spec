@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        3
+Release:        4
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -13,8 +13,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
 BuildRequires:  libosip-devel speex-devel gettext
-Requires(post): /sbin/ldconfig
-Requires(postun): /sbin/ldconfig
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -54,40 +52,44 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/ldconfig
+%post -p /sbin/ldconfig
 
-%postun
-/sbin/ldconfig
+%postun -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 %{_bindir}/*
-%{_libdir}/bonobo
+%{_libdir}/bonobo/servers/*.server
 %{_libdir}/*.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
-%{_datadir}/gnome
-%{_datadir}/gnome-2.0
-%{_datadir}/gtk-doc
-%{_datadir}/linphonec/linphonec
-%{_datadir}/locale/*/*
-%{_datadir}/pixmaps
-%{_datadir}/sounds
+%{_datadir}/gnome/apps/Internet/*.desktop
+%{_datadir}/gnome/help/linphone
+%{_datadir}/gnome-2.0/ui/*.xml
+%{_datadir}/gtk-doc/html/mediastreamer
+%{_datadir}/linphonec
+%{_datadir}/pixmaps/linphone
+%{_datadir}/sounds/linphone
 
 %files devel
 %defattr(-,root,root)
-%{_includedir}/*/*.h
+%{_includedir}/*
 %{_libdir}/*.a
 %{_libdir}/*.la
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Sat Mar 19 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-4
+- Used %find_lang
+- Tightened up %files
+- Streamlined spec file
+
 * Thu Mar 17 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-3
 - Broke %description at 80 columns
 
