@@ -1,0 +1,11 @@
+--- linphone-0.12.2/share/Makefile.in.orig	2005-03-23 16:26:52.922690626 -0500
++++ linphone-0.12.2/share/Makefile.in	2005-03-23 16:27:13.949932428 -0500
+@@ -184,7 +184,7 @@
+ confexdir = $(datadir)/linphonec
+ confex_DATA = linphonec
+ 
+-pkgconfigdir = $(prefix)/lib/pkgconfig
++pkgconfigdir = $(libdir)/pkgconfig
+ pkgconfig_DATA = linphone.pc
+ 
+ EXTRA_DIST = $(LINPHONE_SOUNDS) \

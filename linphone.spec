@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        0.12.2
-Release:        5
+Release:        6
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -9,6 +9,7 @@ URL:            http://www.linphone.org/?lang=us&rubrique=1
 Source0:        http://simon.morlat.free.fr/download/0.12.2/source/linphone-0.12.2.tar.gz
 Patch:          linphone-0.12.2-docs.patch
 Patch1:         linphone-0.12.2-speex.patch
+Patch2:         linphone-0.12.2-pkgconfig.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
@@ -42,6 +43,7 @@ Libraries required to develop software with linphone
 %setup -q
 %patch -p 1 -b .docs
 %patch1 -p 1 -b .speex
+%patch2 -p 1 -b .pkgconfig
 rm -r $RPM_BUILD_DIR/linphone-0.12.2/oRTP/docs
 rm -r $RPM_BUILD_DIR/linphone-0.12.2/speex
 
@@ -85,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Mar 23 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-6
+- Fix build on x86_64
+
 * Sat Mar 19 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-5
 - %%
 
