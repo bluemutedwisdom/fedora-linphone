@@ -1,19 +1,17 @@
 Name:           linphone
-Version:        0.12.2
-Release:        7
+Version:        1.0.1
+Release:        1
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPL
 URL:            http://www.linphone.org/?lang=us&rubrique=1
-Source0:        http://simon.morlat.free.fr/download/0.12.2/source/linphone-0.12.2.tar.gz
-Patch:          linphone-0.12.2-docs.patch
-Patch1:         linphone-0.12.2-speex.patch
-Patch2:         linphone-0.12.2-pkgconfig.patch
+Source0:        http://simon.morlat.free.fr/download/1.0.x/source/linphone-1.0.1.tar.gz
+Patch:         linphone-1.0.1-pkgconfig.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
-BuildRequires:  libosip-devel speex-devel gettext
+BuildRequires:  libosip2-devel speex-devel gettext desktop-file-utils
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -37,15 +35,28 @@ Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release} glib2-devel
 
 %description    devel
-Libraries required to develop software with linphone
+Libraries and headers required to develop software with linphone.
+
+%package -n ortp
+Summary:        A C library implementing the RTP protocol (rfc1889)
+Group:          System Environment/Libraries
+Version:        0.7.0
+
+%description -n ortp
+oRTP is a LGPL licensed C library implementing the RTP protocol (rfc1889). It
+is available for most *nix clones (primilarly Linux and HP-UX), and Win32.
+
+%package -n ortp-devel
+Summary:        Development libraries for ortp
+Group:          Development/Libraries
+Version:        0.7.0
+
+%description -n ortp-devel
+Libraries and headers required to develop software with ortp.
 
 %prep
 %setup -q
-%patch -p 1 -b .docs
-%patch1 -p 1 -b .speex
-%patch2 -p 1 -b .pkgconfig
-rm -r $RPM_BUILD_DIR/linphone-0.12.2/oRTP/docs
-rm -r $RPM_BUILD_DIR/linphone-0.12.2/speex
+%patch -p 1 -b .pkgconfig
 
 %build
 %configure
@@ -55,6 +66,15 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 %find_lang %{name}
+desktop-file-install --vendor=fedora \
+  --delete-original \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications \
+  --remove-category Network \
+  --add-category X-Fedora \
+  --add-category Internet \
+  --add-category Telephony \
+  --add-category GTK \
+  $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,30 +83,53 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun -p /sbin/ldconfig
 
+%post -n ortp -p /sbin/ldconfig
+
+%postun -n ortp -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(-,root,root)
+%doc AUTHORS ChangeLog COPYING NEWS README TODO
 %{_bindir}/*
 %{_libdir}/bonobo/servers/*.server
-%{_libdir}/*.so.*
+%{_libdir}/liblinphone.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
+%{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/apps/Internet/*.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/gnome-2.0/ui/*.xml
 %{_datadir}/gtk-doc/html/mediastreamer
-%{_datadir}/linphonec
 %{_datadir}/pixmaps/linphone
 %{_datadir}/sounds/linphone
 
 %files devel
 %defattr(-,root,root)
-%{_includedir}/*
-%{_libdir}/*.a
-%{_libdir}/*.la
-%{_libdir}/*.so
+%{_datadir}/gtk-doc/html/ortp
+%{_includedir}/linphone
+%{_libdir}/liblinphone.a
+%{_libdir}/liblinphone.la
+%{_libdir}/liblinphone.so
 %{_libdir}/pkgconfig/*
 
+%files -n ortp
+%defattr(-,root,root)
+%doc oRTP/AUTHORS oRTP/ChangeLog oRTP/COPYING oRTP/NEWS oRTP/README oRTP/TODO oRTP/
+%{_libdir}/libortp.so.*
+
+%files -n ortp-devel
+%defattr(-,root,root)
+%{_includedir}/ortp
+%{_libdir}/libortp.a
+%{_libdir}/libortp.la
+%{_libdir}/libortp.so
+
 %changelog
+* Thu Mar 24 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-1
+- Upstream update
+- Separated ortp
+- Added %%doc
+
 * Wed Mar 23 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 0.12.2-7
 - pkgconfig and -devel fixes
 
