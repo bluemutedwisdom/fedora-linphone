@@ -1,0 +1,13 @@
+--- linphone-1.0.1/oRTP/configure.orig	2005-04-08 16:11:32.480520030 -0400
++++ linphone-1.0.1/oRTP/configure	2005-04-08 16:13:20.515559404 -0400
+@@ -20712,10 +20712,6 @@
+ 		posixtimer_interval=20000
+ fi
+ 
+-if test "$GCC" = "yes" ; then
+-	CFLAGS="$CFLAGS -Werror"
+-fi
+-
+ 
+ cat >>confdefs.h <<_ACEOF
+ #define POSIXTIMER_INTERVAL $posixtimer_interval

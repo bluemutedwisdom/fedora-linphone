@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.0.1
-Release:        1
+Release:        2
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -8,6 +8,8 @@ License:        GPL
 URL:            http://www.linphone.org/?lang=us&rubrique=1
 Source0:        http://simon.morlat.free.fr/download/1.0.x/source/linphone-1.0.1.tar.gz
 Patch:         linphone-1.0.1-pkgconfig.patch
+Patch1:         linphone-1.0.1-Werror.patch
+Patch2:         linphone-1.0.1-desktop.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
@@ -57,6 +59,8 @@ Libraries and headers required to develop software with ortp.
 %prep
 %setup -q
 %patch -p 1 -b .pkgconfig
+%patch1 -p 1 -b .Werror
+%patch2 -p 1 -b .old
 
 %build
 %configure
@@ -125,6 +129,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libortp.so
 
 %changelog
+* Fri Apr  8 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2
+- Remove -Werror from configure for now
+- Fix .desktop file to have Terminal=false instead of 0
+
 * Thu Mar 24 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-1
 - Upstream update
 - Separated ortp
