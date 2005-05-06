@@ -1,6 +1,8 @@
+%{!?dist: %define dist .fc4 }
+%{!?fedora: %define fedora 4 }
 Name:           linphone
 Version:        1.0.1
-Release:        2
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -129,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libortp.so
 
 %changelog
+* Fri May  6 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2.fc4
+- Add disttag to Release
+
 * Fri Apr  8 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2
 - Remove -Werror from configure for now
 - Fix .desktop file to have Terminal=false instead of 0
