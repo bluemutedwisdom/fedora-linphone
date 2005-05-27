@@ -1,15 +1,13 @@
-%{!?dist: %define dist .fc4 }
-%{!?fedora: %define fedora 4 }
 Name:           linphone
 Version:        1.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPL
 URL:            http://www.linphone.org/?lang=us&rubrique=1
 Source0:        http://simon.morlat.free.fr/download/1.0.x/source/linphone-1.0.1.tar.gz
-Patch:         linphone-1.0.1-pkgconfig.patch
+Patch:          linphone-1.0.1-pkgconfig.patch
 Patch1:         linphone-1.0.1-Werror.patch
 Patch2:         linphone-1.0.1-desktop.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -71,13 +69,13 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+install -p -m 0644 pixmaps/linphone2.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
 %find_lang %{name}
+rm $RPM_BUILD_ROOT%{_datadir}/gnome/apps/Internet/linphone.desktop
 desktop-file-install --vendor=fedora \
   --delete-original \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications \
-  --remove-category Network \
   --add-category X-Fedora \
-  --add-category Internet \
   --add-category Telephony \
   --add-category GTK \
   $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
@@ -102,11 +100,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libexecdir}/*
 %{_mandir}/man1/*
 %{_datadir}/applications/*%{name}.desktop
-%{_datadir}/gnome/apps/Internet/*.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/gnome-2.0/ui/*.xml
 %{_datadir}/gtk-doc/html/mediastreamer
 %{_datadir}/pixmaps/linphone
+%{_datadir}/pixmaps/linphone2.png
 %{_datadir}/sounds/linphone
 
 %files devel
@@ -131,7 +129,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libortp.so
 
 %changelog
-* Fri May  6 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2.fc4
+* Fri May 27 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-3
+- Fix multiple menu entry and missing icon (#158975)
+- Clean up spec file
+
+* Fri May  6 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2
 - Add disttag to Release
 
 * Fri Apr  8 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-2
