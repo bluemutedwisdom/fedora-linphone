@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -8,12 +8,13 @@ License:        GPL
 URL:            http://www.linphone.org/?lang=us&rubrique=1
 Source0:        http://simon.morlat.free.fr/download/1.0.x/source/linphone-1.0.1.tar.gz
 Patch:          linphone-1.0.1-pkgconfig.patch
-Patch1:         linphone-1.0.1-Werror.patch
-Patch2:         linphone-1.0.1-desktop.patch
+Patch1:         linphone-1.0.1-desktop.patch
+Patch2:         linphone-1.0.1-ortp.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
 BuildRequires:  libosip2-devel speex-devel gettext desktop-file-utils
+BuildRequires:  ortp-devel
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -39,28 +40,12 @@ Requires:       %{name} = %{version}-%{release} glib2-devel
 %description    devel
 Libraries and headers required to develop software with linphone.
 
-%package -n ortp
-Summary:        A C library implementing the RTP protocol (rfc1889)
-Group:          System Environment/Libraries
-Version:        0.7.0
-
-%description -n ortp
-oRTP is a LGPL licensed C library implementing the RTP protocol (rfc1889). It
-is available for most *nix clones (primilarly Linux and HP-UX), and Win32.
-
-%package -n ortp-devel
-Summary:        Development libraries for ortp
-Group:          Development/Libraries
-Version:        0.7.0
-
-%description -n ortp-devel
-Libraries and headers required to develop software with ortp.
-
 %prep
 %setup -q
 %patch -p 1 -b .pkgconfig
-%patch1 -p 1 -b .Werror
-%patch2 -p 1 -b .old
+%patch1 -p 1 -b .old
+%patch2 -p 1 -b .ortp
+rm -r oRTP
 
 %build
 %configure
@@ -87,10 +72,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun -p /sbin/ldconfig
 
-%post -n ortp -p /sbin/ldconfig
-
-%postun -n ortp -p /sbin/ldconfig
-
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING NEWS README TODO
@@ -116,19 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/liblinphone.so
 %{_libdir}/pkgconfig/*
 
-%files -n ortp
-%defattr(-,root,root)
-%doc oRTP/AUTHORS oRTP/ChangeLog oRTP/COPYING oRTP/NEWS oRTP/README oRTP/TODO oRTP/
-%{_libdir}/libortp.so.*
-
-%files -n ortp-devel
-%defattr(-,root,root)
-%{_includedir}/ortp
-%{_libdir}/libortp.a
-%{_libdir}/libortp.la
-%{_libdir}/libortp.so
-
 %changelog
+* Wed Nov 30 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-4
+- Split out ortp
+
 * Fri May 27 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-3
 - Fix multiple menu entry and missing icon (#158975)
 - Clean up spec file
