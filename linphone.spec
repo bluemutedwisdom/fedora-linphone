@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.0.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -90,7 +90,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root)
-%{_datadir}/gtk-doc/html/ortp
 %{_includedir}/linphone
 %{_libdir}/liblinphone.a
 %{_libdir}/liblinphone.la
@@ -98,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Nov 30 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-5
+- Remove ortp documentation for -devel
+
 * Wed Nov 30 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.0.1-4
 - Split out ortp
 
