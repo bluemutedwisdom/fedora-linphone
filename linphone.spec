@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -15,7 +15,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
 BuildRequires:  libosip2-devel speex-devel gettext desktop-file-utils
-BuildRequires:  ortp-devel
+BuildRequires:  ortp-devel >= 0.7.1
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Dec  5 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.1.0-2
+- Added version on ortp-devel
+
 * Mon Dec  5 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.1.0-1
 - Upstream update
 
