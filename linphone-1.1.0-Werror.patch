@@ -1,0 +1,13 @@
+--- linphone-1.1.0/configure.Werror	2005-12-05 17:54:55.000000000 -0500
++++ linphone-1.1.0/configure	2005-12-05 17:55:13.000000000 -0500
+@@ -23816,10 +23816,6 @@
+ 		;;
+ esac
+ 
+-if test "$GCC" = "yes" ; then
+-	STRICT_OPTIONS="-Wall -Werror"
+-fi
+-
+ 
+ 
+ # Check whether --with-realprefix or --without-realprefix was given.
