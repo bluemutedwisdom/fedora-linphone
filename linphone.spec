@@ -1,16 +1,16 @@
 Name:           linphone
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPL
 URL:            http://www.linphone.org/?lang=us&rubrique=1
-Source0:        http://simon.morlat.free.fr/download/1.1.x/source/%{name}-%{version}.tar.gz
-Patch:          linphone-1.0.1-pkgconfig.patch
-Patch1:         linphone-1.0.1-desktop.patch
-Patch2:         linphone-1.1.0-ortp.patch
-Patch3:         linphone-1.1.0-Werror.patch
+Source0:        http://simon.morlat.free.fr/download/1.2.x/source/%{name}-%{version}.tar.gz
+Patch:          linphone-1.0.1-desktop.patch
+Patch1:         linphone-1.2.0-ortp.patch
+Patch2:         linphone-1.1.0-Werror.patch
+Patch3:         linphone-1.2.0-maxrtp.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
@@ -43,10 +43,10 @@ Libraries and headers required to develop software with linphone.
 
 %prep
 %setup -q
-%patch -p 1 -b .pkgconfig
-%patch1 -p 1 -b .old
-%patch2 -p 1 -b .ortp
-%patch3 -p 1 -b .Werror
+%patch -p 1 -b .old
+%patch1 -p 1 -b .ortp
+%patch2 -p 1 -b .Werror
+%patch3 -p 1 -b .maxrtp
 rm -r oRTP
 
 %build
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jan  3 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-1
+- Upstream update
+
 * Mon Dec  5 2005 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.1.0-2
 - Added version on ortp-devel
 
