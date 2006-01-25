@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -11,6 +11,7 @@ Patch:          linphone-1.0.1-desktop.patch
 Patch1:         linphone-1.2.0-ortp.patch
 Patch2:         linphone-1.1.0-Werror.patch
 Patch3:         linphone-1.2.0-maxrtp.patch
+Patch4:         linphone-1.2.0-gtkentry.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
@@ -47,6 +48,7 @@ Libraries and headers required to develop software with linphone.
 %patch1 -p 1 -b .ortp
 %patch2 -p 1 -b .Werror
 %patch3 -p 1 -b .maxrtp
+%patch4 -p 1 -b .gtkentry
 rm -r oRTP
 
 %build
@@ -99,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Jan 24 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-2
+- Fixed selecting entry from address book (#177189)
+
 * Tue Jan  3 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-1
 - Upstream update
 
