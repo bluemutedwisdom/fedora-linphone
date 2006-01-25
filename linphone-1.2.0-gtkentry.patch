@@ -1,0 +1,11 @@
+--- linphone-1.2.0/gnome/addressbook.c.gtkentry	2006-01-22 10:22:24.000000000 -0500
++++ linphone-1.2.0/gnome/addressbook.c	2006-01-22 10:23:12.000000000 -0500
+@@ -164,7 +164,7 @@
+ 		gtk_tree_model_get (model, &iter,SIP_ADDRESS_COLUMN , &address, -1);
+ 	}
+ 	if (address!=NULL){
+-		gtk_entry_set_text (GTK_ENTRY(gnome_entry_gtk_entry(GNOME_ENTRY(addressentry))),address);
++		gtk_entry_set_text (GTK_ENTRY(addressentry),address);
+ 		g_free(address);
+ 	}
+ 	gtk_widget_destroy(ab);
