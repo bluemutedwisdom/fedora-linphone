@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.2.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -15,7 +15,7 @@ Patch4:         linphone-1.2.0-gtkentry.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
-BuildRequires:  libosip2-devel speex-devel gettext desktop-file-utils
+BuildRequires:  libosip2-devel speex-devel >= 1.0.5  gettext desktop-file-utils
 BuildRequires:  ortp-devel >= 0.7.1
 
 %description
@@ -101,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Feb  8 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-1
+- Added version for speex-devel BR (#179879)
+
 * Tue Jan 24 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-2
 - Fixed selecting entry from address book (#177189)
 
