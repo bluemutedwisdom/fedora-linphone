@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.2.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -17,6 +17,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
 BuildRequires:  libosip2-devel speex-devel >= 1.0.5  gettext desktop-file-utils
 BuildRequires:  ortp-devel >= 0.7.1
+BuildRequires:  perl(XML::Parser)
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -101,7 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
-* Wed Aug 30 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.2.0-3
+* Wed Aug 30 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.2.0-6
+- Add BR for perl(XML::Parser) so that intltool will work.
+
+* Wed Aug 30 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.2.0-5
 - Bump release and rebuild.
 
 * Mon Feb 13 2006 Ignacio Vazquez-Abrams <ivazquez@ivazquez.net> 1.2.0-2
