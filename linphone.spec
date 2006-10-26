@@ -1,23 +1,38 @@
 Name:           linphone
-Version:        1.2.0
-Release:        7%{?dist}
+Version:        1.5.0
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPL
-URL:            http://www.linphone.org/?lang=us&rubrique=1
-Source0:        http://simon.morlat.free.fr/download/1.2.x/source/%{name}-%{version}.tar.gz
+URL:            http://www.linphone.org/
+Source0:        http://download.savannah.nongnu.org/releases/linphone/1.5.x/source/%{name}-%{version}.tar.gz
 Patch:          linphone-1.0.1-desktop.patch
-Patch1:         linphone-1.2.0-ortp.patch
-Patch2:         linphone-1.1.0-Werror.patch
-Patch3:         linphone-1.2.0-maxrtp.patch
-Patch4:         linphone-1.2.0-gtkentry.patch
+Patch1:         linphone-1.4.1-libs.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gnome-panel-devel libgnomeui-devel glib2-devel alsa-lib-devel
-BuildRequires:  libosip2-devel speex-devel >= 1.0.5  gettext desktop-file-utils
-BuildRequires:  ortp-devel >= 0.7.1
+BuildRequires:  libosip2-devel
+BuildRequires:  ortp-devel = 0.11.0
+
+BuildRequires:  readline-devel
+BuildRequires:  ncurses-devel
+
+BuildRequires:  gnome-panel-devel
+BuildRequires:  libgnomeui-devel
+BuildRequires:  glib2-devel
+BuildRequires:  alsa-lib-devel
+
+BuildRequires:  speex-devel >= 1.2
+
+BuildRequires:  desktop-file-utils
+
 BuildRequires:  perl(XML::Parser)
+
+BuildRequires:  automake
+BuildRequires:  autoconf
+BuildRequires:  libtool
+BuildRequires:  intltool
+BuildRequires:  gettext
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -27,7 +42,7 @@ implementations:
     * Hotsip, a free of charge phone for Windows.
     * Vocal, an open source SIP stack from Vovida that includes a SIP proxy
         that works with linphone since version 0.7.1.
-    * Siproxd is a free sip proxy being developped by Thomas Ries because he
+    * Siproxd is a free sip proxy being developed by Thomas Ries because he
         would like to have linphone working behind his firewall. Siproxd is
         simple to setup and works perfectly with linphone.
     * Partysip aims at being a generic and fully functionnal SIP proxy. Visit
@@ -46,14 +61,27 @@ Libraries and headers required to develop software with linphone.
 %prep
 %setup -q
 %patch -p 1 -b .old
-%patch1 -p 1 -b .ortp
-%patch2 -p 1 -b .Werror
-%patch3 -p 1 -b .maxrtp
-%patch4 -p 1 -b .gtkentry
+%patch1 -p 1 -b .libs
+
 rm -r oRTP
 
+libtoolize --copy --force
+autoheader
+aclocal -I m4
+automake --force-missing --add-missing --copy
+autoconf
+rm -rf config.cache
+
+pushd mediastreamer2
+libtoolize --copy --force
+autoheader
+aclocal
+automake --force-missing --add-missing --copy
+autoconf
+popd
+
 %build
-%configure
+%configure --disable-static --disable-video
 make %{?_smp_mflags}
 
 %install
@@ -65,10 +93,11 @@ rm $RPM_BUILD_ROOT%{_datadir}/gnome/apps/Internet/linphone.desktop
 desktop-file-install --vendor=fedora \
   --delete-original \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category X-Fedora \
+  --remove-category Application \
   --add-category Telephony \
   --add-category GTK \
   $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+rm -f %{buildroot}%{_libdir}/*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,12 +112,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %{_libdir}/bonobo/servers/*.server
 %{_libdir}/liblinphone.so.*
+%{_libdir}/libmediastreamer.so.*
+%{_libdir}/libquickstream.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/gnome-2.0/ui/*.xml
-%{_datadir}/gtk-doc/html/mediastreamer
 %{_datadir}/pixmaps/linphone
 %{_datadir}/pixmaps/linphone2.png
 %{_datadir}/sounds/linphone
@@ -96,12 +126,18 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(-,root,root)
 %{_includedir}/linphone
-%{_libdir}/liblinphone.a
-%{_libdir}/liblinphone.la
+%{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
+%{_libdir}/libmediastreamer.so
+%{_libdir}/libquickstream.so
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Oct 26 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.5.0-1
+- Update to 1.5.0
+- Fix spelling error in description.
+- Remove invalid categories on desktop file.
+
 * Wed Aug 30 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.2.0-7
 - Bump release so that I can "make tag"
 
