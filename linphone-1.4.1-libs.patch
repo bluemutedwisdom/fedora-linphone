@@ -1,0 +1,38 @@
+diff -ru linphone-1.4.1.old/configure.in linphone-1.4.1.new/configure.in
+--- linphone-1.4.1.old/configure.in	2006-09-18 02:28:20.000000000 -0500
++++ linphone-1.4.1.new/configure.in	2006-10-09 08:49:20.000000000 -0500
+@@ -242,7 +242,7 @@
+ 
+ AC_SUBST(STRICT_OPTIONS)
+ 
+-AC_CONFIG_SUBDIRS( oRTP mediastreamer2 )
++AC_CONFIG_SUBDIRS( mediastreamer2 )
+ 
+ dnl check for db2html (docbook) to generate html user manual
+ AC_CHECK_PROG(have_db2html,db2html, yes, no)
+@@ -258,12 +258,7 @@
+ 
+ AC_DEFINE_UNQUOTED(LINPHONE_VERSION,"$PACKAGE_VERSION",[Linphone's version number])
+ 
+-dnl Packaging: Pick oRTP version from ${top_srcdir}/oRTP/configure.ac
+-dnl Feel free to propose an alternative & cleaner version...
+-top_srcdir=`dirname $0`
+-changequote(, )dnl
+-ORTP_VERSION=`grep -E ^[AC]+_INIT ${top_srcdir}/oRTP/configure.ac | sed -e 's:^.*_INIT(.*,\[\(.*\)\]):\1:g'`
+-changequote([, ])dnl
++ORTP_VERSION=0.11.0
+ AC_SUBST([ORTP_VERSION])
+ 
+ AC_OUTPUT([ 
+diff -ru linphone-1.4.1.old/Makefile.am linphone-1.4.1.new/Makefile.am
+--- linphone-1.4.1.old/Makefile.am	2006-09-11 07:58:46.000000000 -0500
++++ linphone-1.4.1.new/Makefile.am	2006-10-09 08:49:33.000000000 -0500
+@@ -3,7 +3,7 @@
+ # let make re-run automake upon need
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-SUBDIRS = m4 pixmaps po ipkg oRTP gsmlib mediastreamer2\
++SUBDIRS = m4 pixmaps po ipkg gsmlib mediastreamer2\
+ 		media_api exosip coreapi console gnome share
+ 
+ 
