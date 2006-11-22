@@ -1,6 +1,6 @@
 Name:           linphone
-Version:        1.5.0
-Release:        2%{?dist}
+Version:        1.5.1
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -9,10 +9,11 @@ URL:            http://www.linphone.org/
 Source0:        http://download.savannah.nongnu.org/releases/linphone/1.5.x/source/%{name}-%{version}.tar.gz
 Patch:          linphone-1.0.1-desktop.patch
 Patch1:         linphone-1.4.1-libs.patch
+Patch2:		linphone-1.5.1-osipcompat.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  libosip2-devel
-BuildRequires:  ortp-devel = 0.11.0
+BuildRequires:  compat-libosip2-devel
+BuildRequires:  ortp-devel = 0.12.0
 
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
@@ -59,12 +60,14 @@ Requires:       %{name} = %{version}-%{release} glib2-devel
 Libraries and headers required to develop software with linphone.
 
 %prep
-%setup -q
-%patch -p 1 -b .old
-%patch1 -p 1 -b .libs
+%setup0 -q
+%patch0 -p1 -b .old
+%patch1 -p1 -b .libs
+%patch2 -p0 -b .osip
 
 rm -r oRTP
 
+%build
 libtoolize --copy --force
 autoheader
 aclocal -I m4
@@ -80,7 +83,6 @@ automake --force-missing --add-missing --copy
 autoconf
 popd
 
-%build
 %configure --disable-static --disable-video
 make %{?_smp_mflags}
 
@@ -116,6 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libquickstream.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
+%{_mandir}/cs/man1/*
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/gnome-2.0/ui/*.xml
@@ -133,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Nov 21 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.5.1-1
+- Update to 1.5.1
+
 * Thu Oct 26 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.5.0-2
 - Don't forget to add new files and remove old ones!
 
