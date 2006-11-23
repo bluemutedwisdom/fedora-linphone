@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -118,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libquickstream.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
-%{_mandir}/cs/man1/*
+%lang(cs) %{_mandir}/cs/man1/*
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/gnome-2.0/ui/*.xml
@@ -136,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Nov 22 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.5.1-2
+- Mark translated man pages with lang macro
+
 * Tue Nov 21 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.5.1-1
 - Update to 1.5.1
 
