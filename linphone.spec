@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -9,10 +9,10 @@ URL:            http://www.linphone.org/
 Source0:        http://download.savannah.nongnu.org/releases/linphone/1.6.x/sources/%{name}-%{version}.tar.gz
 Patch:          linphone-1.0.1-desktop.patch
 Patch1:         linphone-1.4.1-libs.patch
-Patch2:                linphone-1.5.1-osipcompat.patch
+Patch2:         linphone-1.5.1-osipcompat.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  compat-libosip2-2.2.2-devel
+BuildRequires:  compat-libosip2-devel
 BuildRequires:  ortp-devel = 0.13.0
 
 BuildRequires:  readline-devel
@@ -136,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon Jan 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-2
+- Fix buildrequires
+
 * Mon Jan 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-1
 - Update to 1.6.0
 
