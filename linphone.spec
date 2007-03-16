@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.6.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -69,16 +69,16 @@ rm -r oRTP
 
 %build
 libtoolize --copy --force
-autoheader
 aclocal -I m4
+autoheader
 automake --force-missing --add-missing --copy
 autoconf
 rm -rf config.cache
 
 pushd mediastreamer2
 libtoolize --copy --force
-autoheader
 aclocal
+autoheader
 automake --force-missing --add-missing --copy
 autoconf
 popd
@@ -136,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Mar 16 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-3
+- Move autoheader after aclocal, fixes 232592
+
 * Mon Jan 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-2
 - Fix buildrequires
 
