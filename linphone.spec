@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.6.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -66,6 +66,13 @@ Libraries and headers required to develop software with linphone.
 %patch2 -p0 -b .osip
 
 rm -r oRTP
+
+pushd share/cs
+for f in *.1
+do
+        /usr/bin/iconv --from-code iso-8859-2 --to-code utf-8 --output $f.new $f && sed -i -e 's/Encoding: ISO-8859-2/Encoding: UTF-8/' $f.new && mv $f.new $f
+done
+popd
 
 %build
 libtoolize --copy --force
@@ -136,6 +143,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Mar 16 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-4
+- Fix up encodings in Czech manpages
+
 * Fri Mar 16 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-3
 - Move autoheader after aclocal, fixes 232592
 
