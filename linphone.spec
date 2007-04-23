@@ -1,26 +1,24 @@
 Name:           linphone
-Version:        1.6.0
-Release:        4%{?dist}
+Version:        1.7.1
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPL
 URL:            http://www.linphone.org/
-Source0:        http://download.savannah.nongnu.org/releases/linphone/1.6.x/sources/%{name}-%{version}.tar.gz
-Patch:          linphone-1.0.1-desktop.patch
-Patch1:         linphone-1.4.1-libs.patch
-Patch2:         linphone-1.5.1-osipcompat.patch
+Source0:        http://download.savannah.nongnu.org/releases/linphone/1.7.x/sources/%{name}-%{version}.tar.gz
+Patch0:         linphone-1.7.1-ortpm4.patch
+Patch1:         linphone-1.7.1-imagedir.patch
+Patch2:         linphone-1.7.1-gtkosip.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  compat-libosip2-devel
-BuildRequires:  ortp-devel = 0.13.0
+BuildRequires:  ortp-devel >= 0.13.1
 
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
 
-BuildRequires:  gnome-panel-devel
-BuildRequires:  libgnomeui-devel
-BuildRequires:  glib2-devel
+BuildRequires:  gtk2-devel
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
@@ -28,6 +26,8 @@ BuildRequires:  speex-devel >= 1.2
 BuildRequires:  desktop-file-utils
 
 BuildRequires:  perl(XML::Parser)
+
+BuildRequires:  docbook-utils
 
 BuildRequires:  automake
 BuildRequires:  autoconf
@@ -61,11 +61,15 @@ Libraries and headers required to develop software with linphone.
 
 %prep
 %setup0 -q
-%patch0 -p1 -b .old
-%patch1 -p1 -b .libs
-%patch2 -p0 -b .osip
+%patch0 -p1 -b .ortpm4
+%patch1 -p1 -b .imagedir
+%patch2 -p1 -b .gtkosip
 
-rm -r oRTP
+#patch0 -p1 -b .old
+#patch1 -p1 -b .libs
+#patch2 -p0 -b .osip
+
+#rm -r oRTP
 
 pushd share/cs
 for f in *.1
@@ -75,6 +79,7 @@ done
 popd
 
 %build
+
 libtoolize --copy --force
 aclocal -I m4
 autoheader
@@ -90,7 +95,7 @@ automake --force-missing --add-missing --copy
 autoconf
 popd
 
-%configure --disable-static --disable-video
+%configure --disable-static --disable-rpath --disable-video --enable-alsa --enable-strict --enable-external-ortp --with-osip-version=2.2.2
 make %{?_smp_mflags}
 
 %install
@@ -119,7 +124,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING NEWS README TODO
 %{_bindir}/*
-%{_libdir}/bonobo/servers/*.server
 %{_libdir}/liblinphone.so.*
 %{_libdir}/libmediastreamer.so.*
 %{_libdir}/libquickstream.so.*
@@ -128,10 +132,10 @@ rm -rf $RPM_BUILD_ROOT
 %lang(cs) %{_mandir}/cs/man1/*
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
-%{_datadir}/gnome-2.0/ui/*.xml
 %{_datadir}/pixmaps/linphone
 %{_datadir}/pixmaps/linphone2.png
 %{_datadir}/sounds/linphone
+%{_datadir}/images/linphone
 
 %files devel
 %defattr(-,root,root)
@@ -143,6 +147,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Apr 17 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-1
+- Update to 1.7.1
+- Drop linphone-1.0.1-desktop.patch, linphone-1.4.1-libs.patch and
+  linphone-1.5.1-osipcompat.patch
+
 * Fri Mar 16 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.6.0-4
 - Fix up encodings in Czech manpages
 

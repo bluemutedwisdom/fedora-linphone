@@ -1,0 +1,27 @@
+From 6ebb0b61d9634dd24db0148b05f383977474aa44 Mon Sep 17 00:00:00 2001
+From: Jeffrey C. Ollie <jeff@ocjtech.us>
+Date: Mon, 23 Apr 2007 10:22:34 -0500
+Subject: [PATCH] Use OSIP_CFLAGS to compile gtk front end.
+
+
+Signed-off-by: Jeffrey C. Ollie <jeff@ocjtech.us>
+---
+ gtk/Makefile.am |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/gtk/Makefile.am b/gtk/Makefile.am
+index b98149d..cb05421 100644
+--- a/gtk/Makefile.am
++++ b/gtk/Makefile.am
+@@ -20,7 +20,7 @@ INCLUDES = \
+ 	$(ORTP_CFLAGS) \
+ 	-I$(top_srcdir)/coreapi \
+ 	-I$(top_srcdir)/mediastreamer2/include \
+-	-I$(osip_prefix)/include
++	$(OSIP_CFLAGS)
+ 
+ 
+ 
+-- 
+1.5.1.2
+

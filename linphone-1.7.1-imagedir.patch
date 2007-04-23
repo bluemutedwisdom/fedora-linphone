@@ -1,0 +1,28 @@
+diff --git a/mediastreamer2/src/Makefile.am b/mediastreamer2/src/Makefile.am
+index 4940246..3e1df60 100644
+--- a/mediastreamer2/src/Makefile.am
++++ b/mediastreamer2/src/Makefile.am
+@@ -105,7 +105,7 @@ AM_CFLAGS=	-I$(top_srcdir)  \
+ 		$(GSM_CFLAGS)    \
+ 		$(STRICT_OPTIONS)
+ 
+-imgdir=$(datadir)/images/
++imgdir=$(datadir)/images/linphone/
+ 
+ img_DATA=nowebcamCIF.jpg
+ 
+diff --git a/mediastreamer2/src/nowebcam.c b/mediastreamer2/src/nowebcam.c
+index 6e06ee6..917a927 100644
+--- a/mediastreamer2/src/nowebcam.c
++++ b/mediastreamer2/src/nowebcam.c
+@@ -81,8 +81,8 @@ mblk_t *ms_load_jpeg_as_yuv(const char *jpgpath, MSVideoSize *reqsize){
+ mblk_t *ms_load_nowebcam(MSVideoSize *reqsize, int idx){
+ 	char tmp[256];
+ 	if (idx<0)
+-		snprintf(tmp, sizeof(tmp), "%s/images/%s.jpg", PACKAGE_DATA_DIR, NOWEBCAM_JPG);
++		snprintf(tmp, sizeof(tmp), "%s/images/linphone/%s.jpg", PACKAGE_DATA_DIR, NOWEBCAM_JPG);
+ 	else
+-		snprintf(tmp, sizeof(tmp), "%s/images/%s%i.jpg", PACKAGE_DATA_DIR, NOWEBCAM_JPG, idx);
++		snprintf(tmp, sizeof(tmp), "%s/images/linphone/%s%i.jpg", PACKAGE_DATA_DIR, NOWEBCAM_JPG, idx);
+ 	return ms_load_jpeg_as_yuv(tmp,reqsize);
+ }
