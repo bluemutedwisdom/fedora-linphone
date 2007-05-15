@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.7.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -10,6 +10,7 @@ Source0:        http://download.savannah.nongnu.org/releases/linphone/1.7.x/sour
 Patch0:         linphone-1.7.1-ortpm4.patch
 Patch1:         linphone-1.7.1-imagedir.patch
 Patch2:         linphone-1.7.1-gtkosip.patch
+Patch3:         linphone-1.7.1-extgsm.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  compat-libosip2-devel
@@ -22,6 +23,7 @@ BuildRequires:  gtk2-devel
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
+BuildRequires:  gsm-devel
 
 BuildRequires:  desktop-file-utils
 
@@ -64,12 +66,7 @@ Libraries and headers required to develop software with linphone.
 %patch0 -p1 -b .ortpm4
 %patch1 -p1 -b .imagedir
 %patch2 -p1 -b .gtkosip
-
-#patch0 -p1 -b .old
-#patch1 -p1 -b .libs
-#patch2 -p0 -b .osip
-
-#rm -r oRTP
+%patch3 -p1 -b .extgsm
 
 pushd share/cs
 for f in *.1
@@ -89,13 +86,13 @@ rm -rf config.cache
 
 pushd mediastreamer2
 libtoolize --copy --force
-aclocal
+aclocal -I m4
 autoheader
 automake --force-missing --add-missing --copy
 autoconf
 popd
 
-%configure --disable-static --disable-rpath --disable-video --enable-alsa --enable-strict --enable-external-ortp --with-osip-version=2.2.2
+%configure --disable-static --disable-rpath --disable-video --enable-alsa --enable-strict --enable-external-ortp --with-osip-version=2.2.2 --enable-external-gsm
 make %{?_smp_mflags}
 
 %install
@@ -147,6 +144,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Mon May 14 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-2
+- Add patch for compiling against external GSM library.
+
 * Tue Apr 17 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-1
 - Update to 1.7.1
 - Drop linphone-1.0.1-desktop.patch, linphone-1.4.1-libs.patch and
