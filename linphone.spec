@@ -1,10 +1,10 @@
 Name:           linphone
 Version:        1.7.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
-License:        GPL
+License:        GPLv2+
 URL:            http://www.linphone.org/
 Source0:        http://download.savannah.nongnu.org/releases/linphone/1.7.x/sources/%{name}-%{version}.tar.gz
 Patch0:         linphone-1.7.1-ortpm4.patch
@@ -144,6 +144,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Aug 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-3
+- Update license tag.
+
 * Mon May 14 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-2
 - Add patch for compiling against external GSM library.
 
