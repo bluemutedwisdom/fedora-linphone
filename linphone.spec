@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        1.7.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -36,6 +36,8 @@ BuildRequires:  autoconf
 BuildRequires:  libtool
 BuildRequires:  intltool
 BuildRequires:  gettext
+
+BuildRequires:  popt-devel
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -144,6 +146,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Wed Aug 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-4
+- Update license tag.
+
 * Wed Aug 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-3
 - Update license tag.
 
