@@ -1,20 +1,19 @@
 Name:           linphone
-Version:        1.7.1
-Release:        4%{?dist}
+Version:        2.1.0
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPLv2+
 URL:            http://www.linphone.org/
-Source0:        http://download.savannah.nongnu.org/releases/linphone/1.7.x/sources/%{name}-%{version}.tar.gz
-Patch0:         linphone-1.7.1-ortpm4.patch
-Patch1:         linphone-1.7.1-imagedir.patch
-Patch2:         linphone-1.7.1-gtkosip.patch
-Patch3:         linphone-1.7.1-extgsm.patch
+Source0:        http://download.savannah.nongnu.org/releases/linphone/2.1.x/sources/%{name}-%{version}.tar.gz
+Patch0:         linphone-2.1.0-imagedir.patch
+Patch1:         linphone-2.1.0-novideo.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  compat-libosip2-devel
-BuildRequires:  ortp-devel >= 0.13.1
+BuildRequires:  libosip2-devel >= 3.0.3-2
+BuildRequires:  libeXosip2-devel >= 3.0.3-2
+BuildRequires:  ortp-devel >= 0.14.1
 
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
@@ -37,7 +36,7 @@ BuildRequires:  libtool
 BuildRequires:  intltool
 BuildRequires:  gettext
 
-BuildRequires:  popt-devel
+#BuildRequires:  popt-devel
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -65,17 +64,15 @@ Libraries and headers required to develop software with linphone.
 
 %prep
 %setup0 -q
-%patch0 -p1 -b .ortpm4
-%patch1 -p1 -b .imagedir
-%patch2 -p1 -b .gtkosip
-%patch3 -p1 -b .extgsm
+%patch0 -p1
+%patch1 -p1
 
-pushd share/cs
-for f in *.1
-do
-        /usr/bin/iconv --from-code iso-8859-2 --to-code utf-8 --output $f.new $f && sed -i -e 's/Encoding: ISO-8859-2/Encoding: UTF-8/' $f.new && mv $f.new $f
-done
-popd
+#pushd share/cs
+#for f in *.1
+#do
+#        /usr/bin/iconv --from-code iso-8859-2 --to-code utf-8 --output $f.new $f && sed -i -e 's/Encoding: ISO-8859-2/Encoding: UTF-8/' $f.new && mv $f.new $f
+#done
+#popd
 
 %build
 
@@ -88,13 +85,23 @@ rm -rf config.cache
 
 pushd mediastreamer2
 libtoolize --copy --force
-aclocal -I m4
+aclocal -I ../m4
 autoheader
 automake --force-missing --add-missing --copy
 autoconf
 popd
 
-%configure --disable-static --disable-rpath --disable-video --enable-alsa --enable-strict --enable-external-ortp --with-osip-version=2.2.2 --enable-external-gsm
+%configure --disable-static \
+	   --disable-rpath \
+	   --enable-console_ui=yes \
+	   --enable-gtk_ui=yes \
+	   --enable-ipv6 \
+	   --enable-truespeech \
+	   --disable-video \
+	   --enable-alsa \
+	   --enable-strict \
+	   --enable-external-ortp
+
 make %{?_smp_mflags}
 
 %install
@@ -125,7 +132,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 %{_libdir}/liblinphone.so.*
 %{_libdir}/libmediastreamer.so.*
-%{_libdir}/libquickstream.so.*
 %{_libexecdir}/*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
@@ -142,10 +148,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
 %{_libdir}/libmediastreamer.so
-%{_libdir}/libquickstream.so
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Fri Feb  1 2008 Jeffrey C. Ollie <jeff@ocjtech.us> - 2.1.0-1
+- Update to 2.1.0
+
 * Wed Aug 29 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 1.7.1-4
 - Update license tag.
 
