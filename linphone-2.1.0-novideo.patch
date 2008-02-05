@@ -1,0 +1,35 @@
+From 3ca7c2a2d5ca6d60d861e7c0e3fbb2b40ddf5a70 Mon Sep 17 00:00:00 2001
+From: Jeffrey C. Ollie <jeff@ocjtech.us>
+Date: Fri, 1 Feb 2008 10:40:52 -0600
+Subject: [PATCH] Fix compilation with video disabled.
+
+---
+ coreapi/linphonecore.c |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/coreapi/linphonecore.c b/coreapi/linphonecore.c
+index c77ebae..1e56f33 100644
+--- a/coreapi/linphonecore.c
++++ b/coreapi/linphonecore.c
+@@ -980,14 +980,18 @@ void linphone_core_iterate(LinphoneCore *lc)
+ 					vs=lc->videostream->session;
+ 				display_bandwidth(as,vs);
+ 			}
++#ifdef VIDEO_ENABLED
+ 			if (lc->videostream!=NULL)
+ 				video_stream_iterate(lc->videostream);
++#endif
+ 		}
+ 	}
+ 	if (linphone_core_video_preview_enabled(lc)){
+ 		if (lc->previewstream==NULL)
+ 			toggle_video_preview(lc,TRUE);
++#ifdef VIDEO_ENABLED
+ 		else video_stream_iterate(lc->previewstream);
++#endif
+ 	}else{
+ 		if (lc->previewstream!=NULL)
+ 			toggle_video_preview(lc,FALSE);
+-- 
+1.5.3.8
+
