@@ -1,0 +1,15 @@
+diff --git a/mediastreamer2/src/ice.c b/mediastreamer2/src/ice.c
+index c4296c0..615c7ab 100644
+--- a/mediastreamer2/src/ice.c
++++ b/mediastreamer2/src/ice.c
+@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ #include <netdb.h>
+ #endif
+ 
++#ifndef NI_MAXHOST
++#define NI_MAXHOST 1025
++#endif
++
+ #include "mediastreamer2/ice.h"
+ #include "mediastreamer2/mscommon.h"
+ 

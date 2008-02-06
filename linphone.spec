@@ -9,6 +9,8 @@ URL:            http://www.linphone.org/
 Source0:        http://download.savannah.nongnu.org/releases/linphone/2.1.x/sources/%{name}-%{version}.tar.gz
 Patch0:         linphone-2.1.0-imagedir.patch
 Patch1:         linphone-2.1.0-novideo.patch
+Patch2:		linphone-2.1.0-ni_maxhost_hack.patch
+Patch3:		linphone-2.1.0-no_werror.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libosip2-devel >= 3.0.3-2
@@ -66,6 +68,8 @@ Libraries and headers required to develop software with linphone.
 %setup0 -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 #pushd share/cs
 #for f in *.1
