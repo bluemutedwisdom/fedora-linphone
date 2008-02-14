@@ -1,5 +1,5 @@
 Name:           linphone
-Version:        2.1.0
+Version:        2.1.1
 Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
@@ -15,7 +15,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  libosip2-devel >= 3.0.3-2
 BuildRequires:  libeXosip2-devel >= 3.0.3-2
-BuildRequires:  ortp-devel >= 0.14.1
+BuildRequires:  ortp-devel >= 0.14.2
 
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
@@ -155,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Thu Feb 14 2008 Jeffrey C. Ollie <jeff@ocjtech.us> - 2.1.1-1
+- Update to 2.1.1
+
 * Fri Feb  1 2008 Jeffrey C. Ollie <jeff@ocjtech.us> - 2.1.0-1
 - Update to 2.1.0
 
