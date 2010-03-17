@@ -1,0 +1,41 @@
+--- console/Makefile.in.orig	2009-09-28 14:04:14.000000000 +0100
++++ console/Makefile.in	2010-03-15 14:17:00.968656754 +0000
+@@ -332,12 +332,13 @@
+ @BUILD_CONSOLE_TRUE@sipomatic_SOURCES = \
+ @BUILD_CONSOLE_TRUE@	sipomatic.c sipomatic.h
+ 
+-@BUILD_CONSOLE_TRUE@sipomatic_CFLAGS = $(COMMON_CFLAGS) $(CONSOLE_FLAGS)
++@BUILD_CONSOLE_TRUE@sipomatic_CFLAGS = $(COMMON_CFLAGS) $(CONSOLE_FLAGS) $(EXOSIP_FLAGS)
+ @BUILD_CONSOLE_TRUE@sipomatic_LDADD = $(INTLLIBS)  \
+ @BUILD_CONSOLE_TRUE@			$(top_builddir)/coreapi/liblinphone.la \
+ @BUILD_CONSOLE_TRUE@			$(top_builddir)/mediastreamer2/src/libmediastreamer.la \
+ @BUILD_CONSOLE_TRUE@			$(ORTP_LIBS) \
+ @BUILD_CONSOLE_TRUE@			$(SPEEX_LIBS) \
++@BUILD_CONSOLE_TRUE@			$(EXOSIP_LIBS) \
+ @BUILD_CONSOLE_TRUE@			$(OSIP_LIBS)
+ 
+ @BUILD_CONSOLE_TRUE@linphonecsh_SOURCES = shell.c
+--- gtk-glade/Makefile.in.orig	2009-10-02 21:09:47.000000000 +0100
++++ gtk-glade/Makefile.in	2010-03-15 14:18:24.231659156 +0000
+@@ -77,7 +77,6 @@
+ @BUILD_GLADE_UI_TRUE@@BUILD_WIN32_TRUE@am__DEPENDENCIES_2 =  \
+ @BUILD_GLADE_UI_TRUE@@BUILD_WIN32_TRUE@	linphone.res
+ @BUILD_GLADE_UI_TRUE@linphone_3_DEPENDENCIES =  \
+-@BUILD_GLADE_UI_TRUE@	$(top_builddir)/oRTP/src/libortp.la \
+ @BUILD_GLADE_UI_TRUE@	$(top_builddir)/mediastreamer2/src/libmediastreamer.la \
+ @BUILD_GLADE_UI_TRUE@	$(top_builddir)/coreapi/liblinphone.la \
+ @BUILD_GLADE_UI_TRUE@	$(am__DEPENDENCIES_1) \
+@@ -339,12 +338,11 @@
+ @BUILD_GLADE_UI_TRUE@			linphone.h 
+ 
+ @BUILD_GLADE_UI_TRUE@linphone_3_LDADD =  \
+-@BUILD_GLADE_UI_TRUE@	$(top_builddir)/oRTP/src/libortp.la \
+ @BUILD_GLADE_UI_TRUE@	$(top_builddir)/mediastreamer2/src/libmediastreamer.la \
+ @BUILD_GLADE_UI_TRUE@	$(top_builddir)/coreapi/liblinphone.la \
+ @BUILD_GLADE_UI_TRUE@	$(LIBGTK_LIBS) $(INTLLIBS) \
+ @BUILD_GLADE_UI_TRUE@	$(LIBGLADE_LIBS) $(am__append_1)
+-@BUILD_GLADE_UI_TRUE@@BUILD_WIN32_FALSE@linphone_3_LDFLAGS = -export-dynamic
++@BUILD_GLADE_UI_TRUE@@BUILD_WIN32_FALSE@linphone_3_LDFLAGS = -export-dynamic -losipparser2 $(ORTP_LIBS)
+ @BUILD_GLADE_UI_TRUE@@BUILD_WIN32_TRUE@linphone_3_LDFLAGS = -Wl,--export-all-symbols -mwindows
+ @BUILD_GLADE_UI_TRUE@gladedir = $(datadir)/linphone
+ @BUILD_GLADE_UI_TRUE@glade_DATA = $(GLADE_FILES) $(PIXMAPS) $(top_srcdir)/COPYING
