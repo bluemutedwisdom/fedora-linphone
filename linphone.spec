@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -140,6 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 #%%doc %{_datadir}/doc/mediastreamer/
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Wed Mar 17 2010 Jesse Keating <jkeating@redhat.com> - 3.2.1-2
 - Apply patches from bug 555510 to update linphone
 - Drop the doc/mediastreamer dir from devel package
