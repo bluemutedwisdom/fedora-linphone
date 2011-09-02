@@ -1,0 +1,173 @@
+diff -uNrp linphone-3.4.3/coreapi/linphonecore.c linphone-3.4.3/coreapi/linphonecore.c
+--- linphone-3.4.3/coreapi/linphonecore.c	2011-03-28 21:35:36.000000000 +0300
++++ linphone-3.4.3/coreapi/linphonecore.c	2011-09-02 14:00:57.348939880 +0300
+@@ -746,7 +746,7 @@ static void codecs_config_read(LinphoneC
+ }
+ 
+ static void video_config_read(LinphoneCore *lc){
+-	int capture, display, self_view;
++	__attribute__((__unused__)) int capture, display, self_view;
+ 	int enabled;
+ 	const char *str;
+ 	int ndev;
+diff -uNrp linphone-3.4.3/mediastreamer2/src/ice.c linphone-3.4.3/mediastreamer2/src/ice.c
+--- linphone-3.4.3/mediastreamer2/src/ice.c	2010-08-26 13:21:55.000000000 +0300
++++ linphone-3.4.3/mediastreamer2/src/ice.c	2011-09-02 13:10:40.476774786 +0300
+@@ -480,7 +480,7 @@ static int ice_process_stun_message(RtpS
+ 	struct CandidatePair *remote_candidates = NULL;
+ 	StunMessage msg;
+ 	bool_t res;
+-	int highest_priority_success=-1;
++	__attribute__((__unused__)) int highest_priority_success=-1;
+ 	OrtpEventData *evt_data = ortp_event_get_data(evt);
+ 	mblk_t *mp = evt_data->packet;
+ 	struct sockaddr_in *udp_remote;
+diff -uNrp linphone-3.4.3/mediastreamer2/src/msconf.c linphone-3.4.3/mediastreamer2/src/msconf.c
+--- linphone-3.4.3/mediastreamer2/src/msconf.c	2010-08-26 13:21:55.000000000 +0300
++++ linphone-3.4.3/mediastreamer2/src/msconf.c	2011-09-02 13:47:15.780745079 +0300
+@@ -416,7 +416,7 @@ static void conf_sum(MSFilter *f, ConfSt
+ #ifndef DISABLE_SPEEX
+ 			if (chan->speex_pp!=NULL && s->enable_vad==TRUE && i==0)
+ 			{
+-				int vad;
++				__attribute__((__unused__)) int vad;
+ 				vad = speex_preprocess(chan->speex_pp, (short*)chan->input, NULL);
+ 				ms_filter_notify(f, MS_CONF_SPEEX_PREPROCESS_MIC, (void*)chan->speex_pp);
+ 
+@@ -447,7 +447,7 @@ static void conf_sum(MSFilter *f, ConfSt
+ 			}
+ 			else if (chan->speex_pp!=NULL && s->enable_vad==TRUE)
+ 			{
+-				int vad;
++				__attribute__((__unused__)) int vad;
+ 
+ 				if (s->enable_halfduplex>0)
+ 				{
+diff -uNrp linphone-3.4.3/mediastreamer2/src/msjoin.c linphone-3.4.3/mediastreamer2/src/msjoin.c
+--- linphone-3.4.3/mediastreamer2/src/msjoin.c	2010-08-26 13:21:55.000000000 +0300
++++ linphone-3.4.3/mediastreamer2/src/msjoin.c	2011-09-02 13:38:36.539657990 +0300
+@@ -30,7 +30,7 @@ static void join_process(MSFilter *f){
+ 	if (f->inputs[1]!=NULL)
+ 	{
+ 		while((im=ms_queue_get(f->inputs[1]))!=NULL){
+-			int payload;
++			__attribute__((__unused__)) int payload;
+ 			payload=mblk_set_payload_type(im, 123);
+ 			ms_queue_put(f->outputs[0],im);
+ 		}
+diff -uNrp linphone-3.4.3/mediastreamer2/src/mtu.c linphone-3.4.3/mediastreamer2/src/mtu.c
+--- linphone-3.4.3/mediastreamer2/src/mtu.c	2010-08-26 16:14:08.000000000 +0300
++++ linphone-3.4.3/mediastreamer2/src/mtu.c	2011-09-02 13:52:56.766512552 +0300
+@@ -208,7 +208,7 @@ int ms_discover_mtu(const char *host){
+ 	}
+ 	mtu=1500-28;//was the size of the inital buf
+ 	do{
+-		int send_returned;
++		__attribute__((__unused__)) int send_returned;
+ 		char *buf=ms_malloc0(mtu);//avoid mtu greater than the beginning
+ 		if(buf == NULL)
+ 		{
+diff --git a/coreapi/linphonecore.c b/coreapi/linphonecore.c
+index 4c6deea..2b8eb73 100644
+--- a/coreapi/linphonecore.c
++++ b/coreapi/linphonecore.c
+@@ -1636,9 +1636,9 @@ void linphone_core_iterate(LinphoneCore *lc){
+ 		 linphone_core_start_invite() */
+ 		calls=calls->next;
+ 		if (call->state==LinphoneCallOutgoingInit && (curtime-call->start_time>=2)){
+-				/*start the call even if the OPTIONS reply did not arrive*/
+-				linphone_core_start_invite(lc,call,NULL);
+-			}
++			/*start the call even if the OPTIONS reply did not arrive*/
++			linphone_core_start_invite(lc,call,NULL);
++		}
+ 		if (call->dir==LinphoneCallIncoming && call->state==LinphoneCallOutgoingRinging){
+ 			elapsed=curtime-call->start_time;
+ 			ms_message("incoming call ringing for %i seconds",elapsed);
+@@ -1996,7 +1996,6 @@ LinphoneCall * linphone_core_invite_address(LinphoneCore *lc, const LinphoneAddr
+ **/
+ LinphoneCall * linphone_core_invite_address_with_params(LinphoneCore *lc, const LinphoneAddress *addr, const LinphoneCallParams *params)
+ {
+-	int err=0;
+ 	const char *route=NULL;
+ 	const char *from=NULL;
+ 	LinphoneProxyConfig *proxy=NULL;
+@@ -2049,7 +2048,7 @@ LinphoneCall * linphone_core_invite_address_with_params(LinphoneCore *lc, const
+ 	lc->current_call=call;
+ 	linphone_call_set_state (call,LinphoneCallOutgoingInit,"Starting outgoing call");
+ 	if (dest_proxy!=NULL || lc->sip_conf.ping_with_options==FALSE){
+-		err=linphone_core_start_invite(lc,call,dest_proxy);
++		linphone_core_start_invite(lc,call,dest_proxy);
+ 	}else{
+ 		/*defer the start of the call after the OPTIONS ping*/
+ 		call->ping_op=sal_op_new(lc->sal);
+diff --git a/coreapi/proxy.c b/coreapi/proxy.c
+index a4a062d..fbbf9ce 100644
+--- a/coreapi/proxy.c
++++ b/coreapi/proxy.c
+@@ -269,10 +269,6 @@ static char *guess_contact_for_register(LinphoneProxyConfig *obj){
+ }
+ 
+ static void linphone_proxy_config_register(LinphoneProxyConfig *obj){
+-	const char *id_str;
+-
+-	if (obj->reg_identity!=NULL) id_str=obj->reg_identity;
+-	else id_str=linphone_core_get_primary_contact(obj->lc);
+ 	if (obj->reg_sendregister){
+ 		char *contact;
+ 		if (obj->op)
+diff --git a/coreapi/sal_eXosip2.c b/coreapi/sal_eXosip2.c
+index 869a7d8..65c60af 100644
+--- a/coreapi/sal_eXosip2.c
++++ b/coreapi/sal_eXosip2.c
+@@ -561,19 +561,18 @@ int sal_call(SalOp *h, const char *from, const char *to){
+ 
+ int sal_call_notify_ringing(SalOp *h, bool_t early_media){
+ 	osip_message_t *msg;
+-	int err;
+ 	
+ 	/*if early media send also 180 and 183 */
+ 	if (early_media && h->sdp_answer){
+ 		msg=NULL;
+ 		eXosip_lock();
+-		err=eXosip_call_build_answer(h->tid,180,&msg);
++		eXosip_call_build_answer(h->tid,180,&msg);
+ 		if (msg){
+ 			set_sdp(msg,h->sdp_answer);
+ 			eXosip_call_send_answer(h->tid,180,msg);
+ 		}
+ 		msg=NULL;
+-		err=eXosip_call_build_answer(h->tid,183,&msg);
++		eXosip_call_build_answer(h->tid,183,&msg);
+ 		if (msg){
+ 			set_sdp(msg,h->sdp_answer);
+ 			eXosip_call_send_answer(h->tid,183,msg);
+diff --git a/gtk/friendlist.c b/gtk/friendlist.c
+index f193076..d1b1162 100644
+--- a/gtk/friendlist.c
++++ b/gtk/friendlist.c
+@@ -70,7 +70,7 @@ static GdkPixbuf *create_status_picture(LinphoneOnlineStatus ss){
+ void linphone_gtk_set_friend_status(GtkWidget *friendlist , LinphoneFriend * fid, const gchar *url, const gchar *status, const gchar *img){
+ 	GtkTreeIter iter;
+ 	LinphoneFriend *tmp=0;
+-	gboolean found=FALSE;
++
+ 	GtkTreeModel *model=gtk_tree_view_get_model(GTK_TREE_VIEW(friendlist));
+ 	if (gtk_tree_model_get_iter_first(model,&iter)) {
+ 		do{
+@@ -81,10 +81,9 @@ void linphone_gtk_set_friend_status(GtkWidget *friendlist , LinphoneFriend * fid
+ 				gtk_list_store_set(GTK_LIST_STORE(model),&iter,FRIEND_PRESENCE_STATUS,status,-1);
+ 				pixbuf = create_pixbuf(img);
+ 				if (pixbuf)
+-				  {
+-				    gtk_list_store_set(GTK_LIST_STORE(model),&iter,FRIEND_PRESENCE_IMG, pixbuf,-1);
+-				  }
+-				  found=TRUE;
++				{
++					gtk_list_store_set(GTK_LIST_STORE(model),&iter,FRIEND_PRESENCE_IMG, pixbuf,-1);
++				}
+ 			}
+ 		}while(gtk_tree_model_iter_next(model,&iter));
+ 	}
+--
+cgit v0.8.3.4

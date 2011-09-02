@@ -1,22 +1,24 @@
 Name:           linphone
-Version:        3.2.1
-Release:        3%{?dist}
+Version:        3.4.3
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPLv2+
 URL:            http://www.linphone.org/
-Source0:        http://download.savannah.nongnu.org/releases/linphone/3.2.x/sources/%{name}-%{version}.tar.gz
-Patch1:		linphone-3.2.1-Makefile.in.patch
-Patch2:         linphone-3.2.1-oRTP.patch
-Patch3:		linphone-3.2.1-desktop.patch
 
+Source0:        http://download.savannah.gnu.org/releases/linphone/3.4.x/sources/%{name}-%{version}.tar.gz
+Patch0:         linphone-3.4.3-chdir.patch
+Patch1:         linphone-3.4.3-unusedvar.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  libosip2-devel >= 3.1.0
-BuildRequires:  libeXosip2-devel >= 3.1.0
-BuildRequires:  ortp-devel >= 0.16.1
+BuildRequires:  libosip2-devel >= 3.5.0
+BuildRequires:  libeXosip2-devel >= 3.5.0
+BuildRequires:  ortp-devel >= 0.16.4
+BuildRequires:  openssl-devel
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  jack-audio-connection-kit-devel
 
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
@@ -26,6 +28,7 @@ BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
 BuildRequires:  gsm-devel
+BuildRequires:  libsamplerate-devel
 
 BuildRequires:  desktop-file-utils
 
@@ -34,6 +37,7 @@ BuildRequires:  perl(XML::Parser)
 BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
+BuildRequires:  gettext
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -61,9 +65,11 @@ Libraries and headers required to develop software with linphone.
 
 %prep
 %setup0 -q
-%patch1 -p0
-%patch2 -p1
-%patch3 -p1
+%patch0 -p1 -b .chdir
+%patch1 -p1 -b .unusedvar
+
+# remove bundled oRTP
+rm -rf oRTP
 
 # Fix encoding
 for f in share/cs/*.1; do
@@ -87,6 +93,9 @@ done
            --disable-video \
            --enable-alsa \
            --enable-strict \
+           --enable-nonstandard-gsm \
+           --enable-rsvp \
+           --enable-ssl \
            --enable-external-ortp
 
 make %{?_smp_mflags}
@@ -94,7 +103,7 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-install -p -m 0644 pixmaps/linphone2.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
+
 %find_lang %{name}
 desktop-file-install --vendor=fedora \
   --delete-original \
@@ -124,22 +133,26 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/pixmaps/linphone
-%{_datadir}/pixmaps/linphone2.png
 %{_datadir}/sounds/linphone
 %{_datadir}/images
 %{_datadir}/linphone
 
 %files devel
 %defattr(-,root,root)
+%exclude %{_datadir}/tutorials
 %{_includedir}/linphone
 %{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
 %{_libdir}/libmediastreamer.so
 %{_libdir}/pkgconfig/*
-# This dir seems to have gone away with new release - JK 3/17/2010
-#%%doc %{_datadir}/doc/mediastreamer/
 
 %changelog
+* Fri Sep  2 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.4.3-1
+- linphone-3.4.3
+- BR: openssl-devel libsamplerate-devel gettext
+- BR: pulseaudio-libs-devel jack-audio-connection-kit-devel
+- drop 3.2.1 patches
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
