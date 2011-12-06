@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.4.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -147,6 +147,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/*
 
 %changelog
+* Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 3.4.3-2
+- Rebuild for new libpng
+
 * Fri Sep  2 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.4.3-1
 - linphone-3.4.3
 - BR: openssl-devel libsamplerate-devel gettext
