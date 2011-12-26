@@ -68,6 +68,13 @@ Libraries and headers required to develop software with linphone.
 %setup0 -q
 %patch0 -p1 -b .unusedvar
 
+# g_thread_init has been deprecated since version 2.32 and should not be used in newly-written code.
+# This function is no longer necessary. The GLib threading system is automatically initialized at
+# the start of your program.
+%if 0%{?fedora} >= 17
+sed -i '/g_thread_init/d' gtk/main.c
+%endif
+
 # remove bundled oRTP
 rm -rf oRTP
 
