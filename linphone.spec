@@ -1,6 +1,6 @@
 Name:           linphone
-Version:        3.4.3
-Release:        2%{?dist}
+Version:        3.5.0
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -8,18 +8,18 @@ License:        GPLv2+
 URL:            http://www.linphone.org/
 
 Source0:        http://download.savannah.gnu.org/releases/linphone/3.4.x/sources/%{name}-%{version}.tar.gz
-Patch0:         linphone-3.4.3-chdir.patch
-Patch1:         linphone-3.4.3-unusedvar.patch
+Patch0:         linphone-3.5.0-unusedvar.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  libosip2-devel >= 3.5.0
-BuildRequires:  libeXosip2-devel >= 3.5.0
-BuildRequires:  ortp-devel >= 0.16.4
+BuildRequires:  libosip2-devel >= 3.6.0
+BuildRequires:  libeXosip2-devel >= 3.6.0
+BuildRequires:  ortp-devel >= 1:0.18.0
 BuildRequires:  openssl-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  jack-audio-connection-kit-devel
 
+BuildRequires:  libnotify-devel
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
 
@@ -27,6 +27,7 @@ BuildRequires:  gtk2-devel >= 2.16
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
+BuildRequires:  spandsp-devel
 BuildRequires:  gsm-devel
 BuildRequires:  libsamplerate-devel
 
@@ -65,8 +66,7 @@ Libraries and headers required to develop software with linphone.
 
 %prep
 %setup0 -q
-%patch0 -p1 -b .chdir
-%patch1 -p1 -b .unusedvar
+%patch0 -p1 -b .unusedvar
 
 # remove bundled oRTP
 rm -rf oRTP
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %find_lang %{name}
+%find_lang mediastreamer
+cat mediastreamer.lang >> %{name}.lang
+
 desktop-file-install --vendor=fedora \
   --delete-original \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications \
@@ -125,9 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING NEWS README TODO
 %{_bindir}/*
-%{_libdir}/liblinphone.so.*
-%{_libdir}/libmediastreamer.so.*
-%{_libexecdir}/*
+%{_libdir}/liblinphone.so.4*
+%{_libdir}/libmediastreamer.so.1*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
 %{_datadir}/applications/*%{name}.desktop
@@ -144,9 +146,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
 %{_libdir}/libmediastreamer.so
-%{_libdir}/pkgconfig/*
+%{_libdir}/pkgconfig/linphone.pc
+%{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Mon Dec 26 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.0-1
+- linphone-3.5.0
+- add BR: libnotify-devel spandsp-devel
+
 * Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 3.4.3-2
 - Rebuild for new libpng
 
