@@ -27,7 +27,7 @@ BuildRequires:  gtk2-devel >= 2.16
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
-BuildRequires:  spandsp-devel
+#BuildRequires:  spandsp-devel
 BuildRequires:  gsm-devel
 BuildRequires:  libsamplerate-devel
 
@@ -84,8 +84,7 @@ done
 
 
 %build
-%configure --exec-prefix=%{_prefix} \
-           --disable-static \
+%configure --disable-static \
            --disable-rpath \
            --enable-console_ui=yes \
            --enable-gtk_ui=yes \
@@ -153,7 +152,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Dec 26 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.0-1
 - linphone-3.5.0
-- add BR: libnotify-devel spandsp-devel
+- add BR: libnotify-devel
+- disable spandsp (#691039)
 
 * Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 3.4.3-2
 - Rebuild for new libpng
