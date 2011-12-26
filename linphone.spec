@@ -84,7 +84,8 @@ done
 
 
 %build
-%configure --disable-static \
+%configure --exec-prefix=%{_prefix} \
+           --disable-static \
            --disable-rpath \
            --enable-console_ui=yes \
            --enable-gtk_ui=yes \
