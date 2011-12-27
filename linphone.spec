@@ -36,7 +36,6 @@ BuildRequires:  perl(XML::Parser)
 BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
-BuildRequires:  gettext
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
