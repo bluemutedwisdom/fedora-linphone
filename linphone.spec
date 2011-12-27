@@ -17,19 +17,17 @@ BuildRequires:  libeXosip2-devel >= 3.6.0
 BuildRequires:  ortp-devel >= 1:0.18.0
 BuildRequires:  openssl-devel
 BuildRequires:  pulseaudio-libs-devel
-BuildRequires:  jack-audio-connection-kit-devel
 
-BuildRequires:  libnotify-devel
 BuildRequires:  readline-devel
 BuildRequires:  ncurses-devel
 
+BuildRequires:  libnotify-devel
 BuildRequires:  gtk2-devel >= 2.16
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
 #BuildRequires:  spandsp-devel
 BuildRequires:  gsm-devel
-BuildRequires:  libsamplerate-devel
 
 BuildRequires:  desktop-file-utils
 
