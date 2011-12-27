@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -26,7 +26,7 @@ BuildRequires:  gtk2-devel >= 2.16
 BuildRequires:  alsa-lib-devel
 
 BuildRequires:  speex-devel >= 1.2
-#BuildRequires:  spandsp-devel
+BuildRequires:  spandsp-devel
 BuildRequires:  gsm-devel
 
 BuildRequires:  desktop-file-utils
@@ -154,6 +154,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Tue Dec 27 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.0-2
+- enable spandsp
+
 * Mon Dec 26 2011 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.0-1
 - linphone-3.5.0
 - add BR: libnotify-devel
