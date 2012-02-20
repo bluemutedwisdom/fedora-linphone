@@ -24,7 +24,6 @@ BuildRequires:  libvpx-devel
 BuildRequires:  libosip2-devel >= 3.6.0
 BuildRequires:  libeXosip2-devel >= 3.6.0
 BuildRequires:  libsoup-devel
-BuildRequires:  ortp-devel >= 1:0.18.0
 BuildRequires:  openssl-devel
 BuildRequires:  pulseaudio-libs-devel
 
@@ -46,6 +45,9 @@ BuildRequires:  perl(XML::Parser)
 BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
+
+BuildRequires:  ortp-devel >= 1:0.18.0
+Requires:       ortp >= 1:0.18.0
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -178,6 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Feb 19 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.1-1
 - linphone-3.5.1
 - BR: libsoup-devel
+- Requires: ortp >= 1:0.18.0
 
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
