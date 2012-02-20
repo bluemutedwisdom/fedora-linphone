@@ -1,6 +1,8 @@
+%global novideo 1
+
 Name:           linphone
-Version:        3.5.0
-Release:        3%{?dist}
+Version:        3.5.1
+Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -8,12 +10,20 @@ License:        GPLv2+
 URL:            http://www.linphone.org/
 
 Source0:        http://download.savannah.gnu.org/releases/linphone/3.4.x/sources/%{name}-%{version}.tar.gz
-Patch0:         linphone-3.5.0-unusedvar.patch
+Patch0:         linphone-3.5.1-unusedvar.patch
+Patch1:         linphone-3.5.1-glib-2.31.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%if ! 0%{?novideo}
+BuildRequires:  libtheora-devel
+BuildRequires:  libv4l-devel
+BuildRequires:  libvpx-devel
+%endif
+
 BuildRequires:  libosip2-devel >= 3.6.0
 BuildRequires:  libeXosip2-devel >= 3.6.0
+BuildRequires:  libsoup-devel
 BuildRequires:  ortp-devel >= 1:0.18.0
 BuildRequires:  openssl-devel
 BuildRequires:  pulseaudio-libs-devel
@@ -65,6 +75,11 @@ Libraries and headers required to develop software with linphone.
 %setup0 -q
 %patch0 -p1 -b .unusedvar
 
+%if 0%{?fedora} > 16
+%patch1 -p1 -b .glib-2.31
+%endif
+
+
 # g_thread_init has been deprecated since version 2.32 and should not be used in newly-written code.
 # This function is no longer necessary. The GLib threading system is automatically initialized at
 # the start of your program.
@@ -89,12 +104,15 @@ done
 
 %build
 %configure --disable-static \
+%if 0%{?novideo}
+           --disable-video \
+%endif
+           --disable-ffmpeg \
            --disable-rpath \
            --enable-console_ui=yes \
            --enable-gtk_ui=yes \
            --enable-ipv6 \
            --enable-truespeech \
-           --disable-video \
            --enable-alsa \
            --enable-strict \
            --enable-nonstandard-gsm \
@@ -131,7 +149,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING NEWS README TODO
-%{_bindir}/*
+%{_bindir}/linphone
+%{_bindir}/linphonec
+%{_bindir}/linphonecsh
+%{_bindir}/mediastream
 %{_libdir}/liblinphone.so.4*
 %{_libdir}/libmediastreamer.so.1*
 %{_mandir}/man1/*
@@ -154,6 +175,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Sun Feb 19 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.1-1
+- linphone-3.5.1
+- BR: libsoup-devel
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
