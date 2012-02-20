@@ -47,7 +47,7 @@ BuildRequires:  libglade2-devel
 BuildRequires:  intltool
 
 BuildRequires:  ortp-devel >= 1:0.18.0
-Requires:       ortp >= 1:0.18.0
+Requires:       ortp%{?_isa} >= 1:0.18.0
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
