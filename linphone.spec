@@ -1,7 +1,7 @@
 %global novideo 1
 
 Name:           linphone
-Version:        3.5.1
+Version:        3.5.2
 Release:        1%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
@@ -46,8 +46,8 @@ BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
 
-BuildRequires:  ortp-devel >= 1:0.18.0
-Requires:       ortp%{?_isa} >= 1:0.18.0
+BuildRequires:  ortp-devel >= 1:0.20.0
+Requires:       ortp%{?_isa} >= 1:0.20.0
 
 %description
 Linphone is mostly sip compliant. It works successfully with these
@@ -177,6 +177,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Wed Feb 22 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-1
+- linphone-3.5.2
+
 * Sun Feb 19 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.1-1
 - linphone-3.5.1
 - BR: libsoup-devel
