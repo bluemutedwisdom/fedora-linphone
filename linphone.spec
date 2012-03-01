@@ -2,16 +2,22 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
 License:        GPLv2+
 URL:            http://www.linphone.org/
 
-Source0:        http://download.savannah.gnu.org/releases/linphone/3.4.x/sources/%{name}-%{version}.tar.gz
+Source0:        http://download.savannah.gnu.org/releases/linphone/3.5.x/sources/%{name}-%{version}.tar.gz
 Patch0:         linphone-3.5.1-unusedvar.patch
-Patch1:         linphone-3.5.1-glib-2.31.patch
+
+# commit d1d6ab83af4152f9fb719d885a2de20bddcfa96a
+# Allow building against glib 2.31 and later
+Patch1:         linphone-3.5.2-glib-2.31.patch
+
+# revert commit 2a5c2296ba555c1401267a4544507e2c6239622e causing regression in 3.5.2
+Patch2:         linphone-3.5.2-regression.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -45,6 +51,7 @@ BuildRequires:  perl(XML::Parser)
 BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
+BuildRequires:  doxygen
 
 BuildRequires:  ortp-devel >= 1:0.20.0
 Requires:       ortp%{?_isa} >= 1:0.20.0
@@ -76,18 +83,8 @@ Libraries and headers required to develop software with linphone.
 %prep
 %setup0 -q
 %patch0 -p1 -b .unusedvar
-
-%if 0%{?fedora} > 16
 %patch1 -p1 -b .glib-2.31
-%endif
-
-
-# g_thread_init has been deprecated since version 2.32 and should not be used in newly-written code.
-# This function is no longer necessary. The GLib threading system is automatically initialized at
-# the start of your program.
-%if 0%{?fedora} >= 17
-sed -i '/g_thread_init/d' gtk/main.c
-%endif
+%patch2 -p1 -b .regression
 
 # remove bundled oRTP
 rm -rf oRTP
@@ -139,7 +136,13 @@ desktop-file-install --vendor=fedora \
   --add-category Telephony \
   --add-category GTK \
   $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
-rm -f %{buildroot}%{_libdir}/*.la
+
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+# move docs to %%doc
+mkdir -p doc/linphone doc/mediastreamer
+mv $RPM_BUILD_ROOT%{_datadir}/doc/linphone/linphone*/html doc/linphone
+mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer/mediastreamer*/html doc/mediastreamer
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -168,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root)
-%exclude %{_datadir}/tutorials
+%doc doc/linphone doc/mediastreamer
 %{_includedir}/linphone
 %{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
@@ -177,6 +180,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Mon Feb 27 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-2
+- install docs in -devel
+- update glib-2.31 patch
+- revert commit causing regression in 3.5.2
+
 * Wed Feb 22 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-1
 - linphone-3.5.2
 
