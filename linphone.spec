@@ -2,7 +2,7 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -15,9 +15,6 @@ Patch0:         linphone-3.5.1-unusedvar.patch
 # commit d1d6ab83af4152f9fb719d885a2de20bddcfa96a
 # Allow building against glib 2.31 and later
 Patch1:         linphone-3.5.2-glib-2.31.patch
-
-# revert commit 2a5c2296ba555c1401267a4544507e2c6239622e causing regression in 3.5.2
-Patch2:         linphone-3.5.2-regression.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -84,7 +81,6 @@ Libraries and headers required to develop software with linphone.
 %setup0 -q
 %patch0 -p1 -b .unusedvar
 %patch1 -p1 -b .glib-2.31
-%patch2 -p1 -b .regression
 
 # remove bundled oRTP
 rm -rf oRTP
@@ -180,6 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Mon Mar  5 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-3
+- drop regression patch
+
 * Mon Feb 27 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-2
 - install docs in -devel
 - update glib-2.31 patch
