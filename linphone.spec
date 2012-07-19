@@ -2,7 +2,7 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 Group:          Applications/Communications
@@ -176,6 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.2-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Mon Mar  5 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-3
 - drop regression patch
 
