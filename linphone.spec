@@ -2,10 +2,9 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
-Group:          Applications/Communications
 License:        GPLv2+
 URL:            http://www.linphone.org/
 
@@ -15,8 +14,6 @@ Patch0:         linphone-3.5.1-unusedvar.patch
 # commit d1d6ab83af4152f9fb719d885a2de20bddcfa96a
 # Allow building against glib 2.31 and later
 Patch1:         linphone-3.5.2-glib-2.31.patch
-
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if ! 0%{?novideo}
 BuildRequires:  libtheora-devel
@@ -71,11 +68,28 @@ Linphone may work also with other sip phones, but this has not been tested yet.
 
 %package devel
 Summary:        Development libraries for linphone
-Group:          Development/Libraries
-Requires:       %{name} = %{version}-%{release} glib2-devel
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       linphone-mediastreamer-devel%{?_isa} = %{version}-%{release}
+Requires:       glib2-devel%{?_isa}
 
 %description    devel
 Libraries and headers required to develop software with linphone.
+
+%package mediastreamer
+Summary:        A media streaming library for telephony applications
+
+%description mediastreamer
+Mediastreamer2 is a GPL licensed library to make audio and video
+real-time streaming and processing. Written in pure C, it is based
+upon the oRTP library.
+
+%package mediastreamer-devel
+Summary:        Development libraries for mediastreamer2
+Requires:       linphone-mediastreamer%{?_isa} = %{version}-%{release}
+Requires:       ortp-devel%{?_isa}
+
+%description mediastreamer-devel
+Libraries and headers required to develop software with mediastreamer2.
 
 %prep
 %setup0 -q
@@ -118,12 +132,10 @@ done
 make %{?_smp_mflags}
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %find_lang %{name}
 %find_lang mediastreamer
-cat mediastreamer.lang >> %{name}.lang
 
 desktop-file-install --vendor=fedora \
   --delete-original \
@@ -140,42 +152,51 @@ mkdir -p doc/linphone doc/mediastreamer
 mv $RPM_BUILD_ROOT%{_datadir}/doc/linphone/linphone*/html doc/linphone
 mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer/mediastreamer*/html doc/mediastreamer
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
+%post mediastreamer -p /sbin/ldconfig
+
+%postun mediastreamer -p /sbin/ldconfig
+
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING NEWS README TODO
 %{_bindir}/linphone
 %{_bindir}/linphonec
 %{_bindir}/linphonecsh
-%{_bindir}/mediastream
 %{_libdir}/liblinphone.so.4*
-%{_libdir}/libmediastreamer.so.1*
 %{_mandir}/man1/*
 %lang(cs) %{_mandir}/cs/man1/*
 %{_datadir}/applications/*%{name}.desktop
 %{_datadir}/gnome/help/linphone
 %{_datadir}/pixmaps/linphone
 %{_datadir}/sounds/linphone
-%{_datadir}/images
 %{_datadir}/linphone
 
 %files devel
-%defattr(-,root,root)
-%doc doc/linphone doc/mediastreamer
+%doc doc/linphone/html
 %{_includedir}/linphone
-%{_includedir}/mediastreamer2
 %{_libdir}/liblinphone.so
-%{_libdir}/libmediastreamer.so
 %{_libdir}/pkgconfig/linphone.pc
+
+%files mediastreamer -f mediastreamer.lang
+%doc mediastreamer2/AUTHORS mediastreamer2/ChangeLog mediastreamer2/COPYING
+%doc mediastreamer2/NEWS mediastreamer2/README
+%{_bindir}/mediastream
+%{_libdir}/libmediastreamer.so.1*
+%{_datadir}/images
+
+%files mediastreamer-devel
+%doc doc/mediastreamer/html
+%{_includedir}/mediastreamer2
+%{_libdir}/libmediastreamer.so
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Mon Dec 31 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-5
+- add -mediastreamer and -mediastreamer-devel subpackages
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
