@@ -2,7 +2,7 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -194,6 +194,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer/mediastreamer*/html doc/mediastr
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.2-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Mon Dec 31 2012 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-5
 - add -mediastreamer and -mediastreamer-devel subpackages
 
