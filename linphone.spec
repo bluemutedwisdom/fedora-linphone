@@ -2,7 +2,7 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -46,6 +46,8 @@ BuildRequires:  libglade2-devel
 
 BuildRequires:  intltool
 BuildRequires:  doxygen
+
+BuildRequires:  libtool perl-Carp
 
 BuildRequires:  ortp-devel >= 1:0.20.0
 Requires:       ortp%{?_isa} >= 1:0.20.0
@@ -95,6 +97,8 @@ Libraries and headers required to develop software with mediastreamer2.
 %setup0 -q
 %patch0 -p1 -b .unusedvar
 %patch1 -p1 -b .glib-2.31
+
+autoreconf -i -f
 
 # remove bundled oRTP
 rm -rf oRTP
@@ -194,6 +198,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer/mediastreamer*/html doc/mediastr
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Sat Mar 23 2013 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-7
+- autoreconf in %%prep (#926078)
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.5.2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
