@@ -2,7 +2,7 @@
 
 Name:           linphone
 Version:        3.5.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -141,7 +141,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %find_lang %{name}
 %find_lang mediastreamer
 
-desktop-file-install --vendor=fedora \
+desktop-file-install \
   --delete-original \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications \
   --remove-category Application \
@@ -198,6 +198,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer/mediastreamer*/html doc/mediastr
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Fri Apr 26 2013 Jon Ciesla <limburgher@gmail.com> - 3.5.2-8
+- Drop desktop vendor tag.
+
 * Sat Mar 23 2013 Alexey Kurov <nucleo@fedoraproject.org> - 3.5.2-7
 - autoreconf in %%prep (#926078)
 
