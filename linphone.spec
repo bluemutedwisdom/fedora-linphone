@@ -8,6 +8,7 @@ URL:            http://www.linphone.org/
 
 Source0:        http://download.savannah.gnu.org/releases/linphone/3.5.x/sources/%{name}-%{version}.tar.gz
 Patch0:         linphone-3.6.1-rootca.patch
+Patch1:         linphone-3.6.1-arm.patch
 
 # for video support
 BuildRequires:  glew-devel
@@ -97,6 +98,9 @@ Libraries and headers required to develop software with mediastreamer2.
 %prep
 %setup0 -q
 %patch0 -p1 -b .rootca
+%ifarch %{arm}
+%patch1 -p1 -b .arm
+%endif
 
 autoreconf -i -f
 
@@ -207,6 +211,7 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer*/html doc/mediastreamer
 %changelog
 * Sat Jul 27 2013 Alexey Kurov <nucleo@fedoraproject.org> - 3.6.1-2
 - use /etc/ssl/certs/ca-bundle.crt root_ca
+- fix armv7hl compilation
 
 * Sun Jul  7 2013 Alexey Kurov <nucleo@fedoraproject.org> - 3.6.1-1
 - linphone-3.6.1
