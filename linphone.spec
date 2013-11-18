@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.6.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -209,6 +209,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer*/html doc/mediastreamer
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Mon Nov 18 2013 Dave Airlie <airlied@redhat.com> - 3.6.1-3
+- rebuilt for GLEW 1.10
+
 * Sat Jul 27 2013 Alexey Kurov <nucleo@fedoraproject.org> - 3.6.1-2
 - use /etc/ssl/certs/ca-bundle.crt root_ca
 - fix armv7hl compilation
