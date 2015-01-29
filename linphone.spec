@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.6.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -38,6 +38,7 @@ BuildRequires:  alsa-lib-devel
 
 BuildRequires:  opus-devel
 BuildRequires:  speex-devel >= 1.2
+BuildRequires:  speexdsp-devel >= 1.2
 BuildRequires:  spandsp-devel
 BuildRequires:  gsm-devel
 
@@ -211,6 +212,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer*/html doc/mediastreamer
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Thu Jan 29 2015 Peter Robinson <pbrobinson@fedoraproject.org> 3.6.1-7
+- Add speexdsp-devel as a dep to fix FTBFS
+
 * Fri Nov 14 2014 Tom Callaway <spot@fedoraproject.org> - 3.6.1-6
 - rebuild for new libsrtp
 
