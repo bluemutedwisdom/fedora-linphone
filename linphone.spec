@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.6.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -212,6 +212,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer*/html doc/mediastreamer
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 3.6.1-9
+- Rebuilt for GCC 5 C++11 ABI change
+
 * Mon Apr  6 2015 Tom Callaway <spot@fedoraproject.org> - 3.6.1-8
 - rebuild for libvpx 1.4.0
 
