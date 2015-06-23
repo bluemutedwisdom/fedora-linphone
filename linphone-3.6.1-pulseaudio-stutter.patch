@@ -1,0 +1,10 @@
+
+--- mediastreamer2/src/audiofilters/pulseaudio.c       2013-03-25 14:31:33.301986722 +0400
++++ mediastreamer2/src/audiofilters/pulseaudio.c_      2014-10-18 19:59:22.454542849 +0400
+@@ -23,5 +23,5 @@ Foundation, Inc., 59 Temple Place - Suit
+ #include <pulse/pulseaudio.h>
+
+-static const float latency_req=0.02;
++static const float latency_req=0.1;
+
+ static void init_pulse_context();

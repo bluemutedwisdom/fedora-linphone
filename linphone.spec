@@ -1,6 +1,6 @@
 Name:           linphone
 Version:        3.6.1
-Release:        10%{?dist}
+Release:        99%{?dist}
 Summary:        Phone anywhere in the whole world by using the Internet
 
 License:        GPLv2+
@@ -10,6 +10,8 @@ Source0:        http://download.savannah.gnu.org/releases/linphone/3.7.x/sources
 Patch0:         linphone-3.6.1-rootca.patch
 Patch1:         linphone-3.6.1-arm.patch
 Patch2:		linphone-3.6.1-theora-fix.patch
+# https://bugzilla.redhat.com/show_bug.cgi?id=1142958
+Patch3:		linphone-3.6.1-pulseaudio-stutter.patch
 
 # for video support
 BuildRequires:  glew-devel
@@ -104,6 +106,7 @@ Libraries and headers required to develop software with mediastreamer2.
 %patch1 -p1 -b .arm
 %endif
 %patch2 -p1 -b .theora-fix
+%patch3 -p0 -b .pulseaudio-stutter
 
 autoreconf -i -f
 
@@ -212,6 +215,9 @@ mv $RPM_BUILD_ROOT%{_datadir}/doc/mediastreamer*/html doc/mediastreamer
 %{_libdir}/pkgconfig/mediastreamer.pc
 
 %changelog
+* Tue Jun 23 2015 Michael Friedrich <michael.friedrich@gmail.com>
+- Add fix for pulseaudio stutter
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.6.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
